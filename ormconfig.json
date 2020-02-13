@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "qmanager-db.postgres.database.azure.com",
+  "port": 5432,
+  "username": "commander@qmanager-db",
+  "password": "LlW9mO*J!p6s",
+  "database": "postgres",
+  "entities": ["dist/**/*.entity{.ts,.js}"],
+  "synchronize": true,
+  "ssl": "require"
+}
