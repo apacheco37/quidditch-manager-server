@@ -1,11 +1,10 @@
 {
-  "type": "postgres",
-  "host": "qmanager-db.postgres.database.azure.com",
-  "port": 5432,
-  "username": "commander@qmanager-db",
-  "password": "LlW9mO*J!p6s",
-  "database": "postgres",
+  "type": "mssql",
+  "host": "qm-server-db.database.windows.net",
+  "port": 1433,
+  "username": "commander",
+  "password": "wWJ2^@w*Rks&",
+  "database": "qm-db",
   "entities": ["dist/**/*.entity{.ts,.js}"],
-  "synchronize": true,
-  "ssl": "require"
+  "synchronize": true
 }
