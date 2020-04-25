@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Player } from './player.entity';
+import { Player } from './entities/player.entity';
 
 @Injectable()
 export class PlayerService {
@@ -11,19 +11,23 @@ export class PlayerService {
     private readonly playerRepository: Repository<Player>
   ) {}
 
-  getPlayers(): string {
-    return 'Hola!';
+  getPlayers(): Promise<Player[]> {
+    return this.playerRepository.find();
   }
 
-  // findAll(): Promise<User[]> {
-  //   return this.playerRepository.find();
-  // }
+  getPlayer(id: string): Promise<Player> {
+    return this.playerRepository.findOne(id);
+  }
 
-  // findOne(id: string): Promise<User> {
-  //   return this.playerRepository.findOne(id);
-  // }
+  addPlayer(player: Player): Promise<Player> {
+    return this.playerRepository.save(player);
+  }
 
-  // async remove(id: string): Promise<void> {
-  //   await this.playerRepository.delete(id);
-  // }
+  updatePlayer(player: Player): Promise<Player> {
+    return this.playerRepository.save(player);
+  }
+
+  async deletePlayer(id: string): Promise<void> {
+    await this.playerRepository.delete(id);
+  }
 }
