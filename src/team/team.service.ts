@@ -27,7 +27,7 @@ export class TeamService {
     return this.teamRepository.save(team);
   }
 
-  deleteTeam(id: string): Promise<void> {
-    this.teamRepository.remove.delete(id);
+  deleteTeam(team: Team): Promise<void> {
+    this.teamRepository.remove(team: Team);
   }
 }
