@@ -1,10 +1,10 @@
 {
   "type": "mssql",
-  "host": "qm-server-db.database.windows.net",
+  "host": "qm-db.database.windows.net",
   "port": 1433,
   "username": "commander",
-  "password": "wWJ2^@w*Rks&",
-  "database": "qm-db",
+  "password": "m9k%zOyNRcC7",
+  "database": "QM DB",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }
