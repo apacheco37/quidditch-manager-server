@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Player } from "src/player/entities/player.entity";
 
 @Entity()
@@ -6,12 +6,13 @@ export class MatchOrder {
   @PrimaryGeneratedColumn()
   Id: number;
 
-  @Column()
+  @OneToMany(type => Player, player => player.Id)
   Chasers: Player[];
 
-  @Column()
+  @OneToMany(type => Player, player => player.Id)
   Beaters: Player[];
 
-  @Column()
+  @OneToOne(type => Player)
+  @JoinColumn()
   Keeper: Player;
 }
