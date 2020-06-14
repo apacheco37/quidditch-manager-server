@@ -11,8 +11,13 @@ export class PlayerService {
     private readonly playerRepository: Repository<Player>
   ) {}
 
-  getPlayers(): Promise<Player[]> {
-    return this.playerRepository.find();
+  getPlayers(amount: number, page: number): Promise<Player[]> {
+    return this.playerRepository.find(
+      {
+        take: amount,
+        skip: page,
+      }
+    );
   }
 
   getPlayer(id: string): Promise<Player> {
@@ -20,6 +25,7 @@ export class PlayerService {
   }
 
   addPlayer(player: Player): Promise<Player> {
+    console.log(player);
     return this.playerRepository.save(player);
   }
 
@@ -27,7 +33,8 @@ export class PlayerService {
     return this.playerRepository.save(player);
   }
 
-  async deletePlayer(id: string): Promise<void> {
-    await this.playerRepository.delete(id);
+  async deletePlayer(id: string): Promise<Player> {
+    let player: Player = await this.playerRepository.findOne(id);
+    return player !== null ? this.playerRepository.remove(player) : null;
   }
 }

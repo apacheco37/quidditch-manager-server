@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Param, Query } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { Player } from './entities/player.entity';
 
@@ -7,8 +7,8 @@ export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }
 
   @Get()
-  getPlayers(): Promise<Player[]> {
-    return this.playerService.getPlayers();
+  getPlayers(@Query() query): Promise<Player[]> {
+    return this.playerService.getPlayers(query.amount, query.page);
   }
 
   @Get(':id')
@@ -18,6 +18,7 @@ export class PlayerController {
 
   @Post()
   createPlayer(@Body() player: Player): Promise<Player>{
+    console.log(player);
     return this.playerService.addPlayer(player);
   }
 
