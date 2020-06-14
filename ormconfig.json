@@ -1,10 +1,10 @@
 {
-  "type": "mssql",
-  "host": "qm-db.database.windows.net",
-  "port": 1433,
-  "username": "commander",
-  "password": "m9k%zOyNRcC7",
-  "database": "QM DB",
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "",
+  "password": "",
+  "database": "QuidditchManagerDB",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true
 }
