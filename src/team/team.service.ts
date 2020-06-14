@@ -11,8 +11,13 @@ export class TeamService {
     private readonly teamRepository: Repository<Team>
   ) {}
 
-  getTeams(): Promise<Team[]> {
-    return this.teamRepository.find();
+  getTeams(amount: number, page: number): Promise<Team[]> {
+    return this.teamRepository.find(
+      {
+        take: amount,
+        skip: page,
+      }
+    );
   }
 
   getTeam(id: string): Promise<Team> {
@@ -27,7 +32,8 @@ export class TeamService {
     return this.teamRepository.save(team);
   }
 
-  deleteTeam(team: Team): Promise<void> {
-    this.teamRepository.remove(team: Team);
+  async deleteTeam(id: string): Promise<Team> {
+    let team: Team = await this.teamRepository.findOne(id);
+    return team !== null ? this.teamRepository.remove(team) : null;
   }
 }

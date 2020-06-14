@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, Query } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { Team } from './team.entity';
 
@@ -7,8 +7,8 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) { }
 
   @Get()
-  getTeams(): Promise<Team[]> {
-    return this.teamService.getTeams();
+  getTeams(@Query() query): Promise<Team[]> {
+    return this.teamService.getTeams(query.amount, query.page);
   }
 
   @Get(':id')
