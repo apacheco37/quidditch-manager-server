@@ -18,7 +18,6 @@ export class PlayerController {
 
   @Post()
   createPlayer(@Body() player: Player): Promise<Player>{
-    console.log(player);
     return this.playerService.addPlayer(player);
   }
 

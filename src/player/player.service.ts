@@ -25,7 +25,6 @@ export class PlayerService {
   }
 
   addPlayer(player: Player): Promise<Player> {
-    console.log(player);
     return this.playerRepository.save(player);
   }
 
@@ -34,7 +33,7 @@ export class PlayerService {
   }
 
   async deletePlayer(id: string): Promise<Player> {
-    let player: Player = await this.playerRepository.findOne(id);
+    const player: Player = await this.playerRepository.findOne(id);
     return player !== null ? this.playerRepository.remove(player) : null;
   }
 }

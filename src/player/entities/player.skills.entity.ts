@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class PlayerSkills {
@@ -10,25 +10,25 @@ export class PlayerSkills {
 
   @Column()
   Passing: number;
-  
+
   @Column()
   Interceptions: number;
-  
+
   @Column()
   Handling: number;
-  
+
   @Column()
   BeatingAccuracy: number;
 
   @Column()
   Agility: number;
-  
+
   @Column()
   Reflexes: number;
-  
+
   @Column()
   Balance: number;
-  
+
   @Column()
   Strength: number;
 }
