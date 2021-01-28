@@ -6,29 +6,29 @@ import { PlayerStats } from './player.stats.entity';
 @Entity()
 export class Player {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
   @Column({
     length: 50
   })
-  FirstName: string;
+  first_name: string;
 
   @Column({
     length: 50
   })
-  LastName: string;
+  last_name: string;
 
   @Column()
-  Age: number;
+  age: number;
 
   @OneToOne(type => PlayerSkills)
   @JoinColumn()
-  Skills: PlayerSkills;
+  skills: PlayerSkills;
 
   @OneToOne(type => PlayerStats)
   @JoinColumn()
-  Stats: PlayerStats;
+  stats: PlayerStats;
 
-  @ManyToOne(type => Team, team => team.Players)
-  Team: Team;
+  @ManyToOne(type => Team, team => team.players)
+  team: Team;
 }

@@ -3,32 +3,32 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class PlayerSkills {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
   @Column()
-  Scoring: number;
+  scoring: number;
 
   @Column()
-  Passing: number;
+  passing: number;
 
   @Column()
-  Interceptions: number;
+  interceptions: number;
 
   @Column()
-  Handling: number;
+  handling: number;
 
   @Column()
-  BeatingAccuracy: number;
+  beating_accuracy: number;
 
   @Column()
-  Agility: number;
+  agility: number;
 
   @Column()
-  Reflexes: number;
+  reflexes: number;
 
   @Column()
-  Balance: number;
+  balance: number;
 
   @Column()
-  Strength: number;
+  strength: number;
 }

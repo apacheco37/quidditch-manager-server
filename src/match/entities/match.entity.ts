@@ -1,34 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from "typeorm";
-import { MatchOrder } from "./match.order.entity";
-import { MatchTeamSummary } from "./match.team.summary.entity";
-import { MatchTeamRatings } from "./match.team.ratings.entity";
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { MatchOrder } from './match.order.entity';
+import { MatchTeamSummary } from './match.team.summary.entity';
+import { MatchTeamRatings } from './match.team.ratings.entity';
 
 @Entity()
 export class Match {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
   @OneToOne(type => MatchOrder)
   @JoinColumn()
-  HomeTeamMatchOrder: MatchOrder;
+  home_team_match_order: MatchOrder;
 
   @OneToOne(type => MatchOrder)
   @JoinColumn()
-  AwayTeamMatchOrder: MatchOrder;
+  away_team_match_order: MatchOrder;
 
   @OneToOne(type => MatchTeamSummary)
   @JoinColumn()
-  HomeTeamMatchSummary: MatchTeamSummary;
+  home_team_match_summary: MatchTeamSummary;
 
   @OneToOne(type => MatchTeamSummary)
   @JoinColumn()
-  AwayTeamMatchSummary: MatchTeamSummary;
+  away_team_match_summary: MatchTeamSummary;
 
   @OneToOne(type => MatchTeamRatings)
   @JoinColumn()
-  HomeTeamRatings: MatchTeamRatings;
+  home_team_ratings: MatchTeamRatings;
 
   @OneToOne(type => MatchTeamRatings)
   @JoinColumn()
-  AwayTeamRatings: MatchTeamRatings;
+  away_team_ratings: MatchTeamRatings;
 }

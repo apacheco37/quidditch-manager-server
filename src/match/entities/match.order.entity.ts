@@ -1,18 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
-import { Player } from "src/player/entities/player.entity";
+import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Player } from 'src/player/entities/player.entity';
 
 @Entity()
 export class MatchOrder {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
-  @OneToMany(type => Player, player => player.Id)
-  Chasers: Player[];
+  @OneToMany(type => Player, player => player.id)
+  chasers: Player[];
 
-  @OneToMany(type => Player, player => player.Id)
-  Beaters: Player[];
+  @OneToMany(type => Player, player => player.id)
+  beaters: Player[];
 
   @OneToOne(type => Player)
   @JoinColumn()
-  Keeper: Player;
+  keeper: Player;
 }

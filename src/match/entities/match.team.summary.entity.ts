@@ -1,25 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class MatchTeamSummary {
   @PrimaryGeneratedColumn()
-  Id: number;
+  id: number;
 
   @Column()
-  GoalsScored: number;
+  goals_scored: number;
 
   @Column()
-  ShotsMissed: number;
+  shots_missed: number;
 
   @Column()
-  ShotsMade: number;
+  shots_made: number;
 
   @Column()
-  Steals: number;
+  steals: number;
 
   @Column()
-  Turnovers: number;
+  turnovers: number;
 
   @Column()
-  Saves: number;
+  saves: number;
 }
