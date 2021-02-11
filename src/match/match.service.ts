@@ -8,7 +8,7 @@ import { MatchOrder } from './entities/match.order.entity';
 
 @Injectable()
 export class MatchService {
-  
+
   constructor(
     @InjectRepository(Match)
     private readonly matchRepository: Repository<Match>
@@ -17,9 +17,9 @@ export class MatchService {
   getMatch(id: string): Promise<Match> {
     return this.matchRepository.findOne(id);
   }
- 
+
   simulateMatch(teamMatchOrder: MatchOrder, awayMatchOrder: MatchOrder): Promise<Match> {
-    let match: Match = new MatchSimulation(teamMatchOrder, awayMatchOrder).simulateMatch();
+    const match: Match = new MatchSimulation(teamMatchOrder, awayMatchOrder).simulateMatch();
     return this.matchRepository.save(match);
   }
 }

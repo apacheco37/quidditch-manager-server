@@ -47,8 +47,8 @@ export class MatchSimulation {
     while(this.timeRemainingInHalf > 0  && this.half <= 2) {
       // Length of each possession is between 20 and 30 seconds
       // TODO: adjust when there is less than 20 to 30 seconds
-      let possessionTime: number = this.randomNumberInRange(20, 30);
-      let possessionOutcome: PossessionOutcome = this.simulatePossession();
+      const possessionTime: number = this.randomNumberInRange(20, 30);
+      const possessionOutcome: PossessionOutcome = this.simulatePossession();
 
       switch (possessionOutcome.typeOfPlay) {
         case TypeOfPlay.TURNOVER:
@@ -57,7 +57,7 @@ export class MatchSimulation {
           } else {
             this.match.away_team_match_summary.turnovers += 1;
           }
-          this.teamInPossession = this.teamInPossession == 1 ? 0 : 1;
+          this.teamInPossession = this.teamInPossession === 1 ? 0 : 1;
           break;
         case TypeOfPlay.STEAL:
           if (this.teamInPossession === 1) {
@@ -65,7 +65,7 @@ export class MatchSimulation {
           } else {
             this.match.home_team_match_summary.steals += 1;
           }
-          this.teamInPossession = this.teamInPossession == 1 ? 0 : 1;
+          this.teamInPossession = this.teamInPossession === 1 ? 0 : 1;
           break;
         case TypeOfPlay.SHOTMISSED:
           if (this.teamInPossession === 1) {
@@ -108,12 +108,12 @@ export class MatchSimulation {
         this.timeRemainingInHalf = this.halfLength * 60
       }
     }
-    
+
     return this.match;
   }
 
   private calculateTeamRatings(teamOrder: MatchOrder): MatchTeamRatings {
-    let matchTeamRatings: MatchTeamRatings;
+    const matchTeamRatings: MatchTeamRatings = new MatchTeamRatings();
 
     teamOrder.chasers.forEach(chaser => {
       matchTeamRatings.scoring += chaser.skills.scoring;
@@ -130,8 +130,8 @@ export class MatchSimulation {
     });
 
     matchTeamRatings.goalkeeping += (
-      teamOrder.keeper.skills.reflexes + 
-      teamOrder.keeper.skills.agility + 
+      teamOrder.keeper.skills.reflexes +
+      teamOrder.keeper.skills.agility +
       teamOrder.keeper.skills.handling
     );
 

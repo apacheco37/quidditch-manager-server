@@ -8,7 +8,7 @@ export class MatchController {
   constructor(
     private readonly matchService: MatchService
   ) { }
-  
+
   @Post('play')
   playMatch(homeTeamOrders: MatchOrder, awayTeamOrder: MatchOrder): Promise<Match> {
     return this.matchService.simulateMatch(homeTeamOrders, awayTeamOrder);
