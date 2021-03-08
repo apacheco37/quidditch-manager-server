@@ -24,13 +24,15 @@ export class Player {
   age: number;
 
   @OneToOne(type => PlayerSkills, {
-    cascade: ['insert']
+    cascade: ['insert'],
+    eager: true
   })
   @JoinColumn()
   skills: PlayerSkills;
 
   @OneToOne(type => PlayerStats, {
-    cascade: ['insert']
+    cascade: ['insert'],
+    eager: true
   })
   @JoinColumn()
   stats: PlayerStats;
