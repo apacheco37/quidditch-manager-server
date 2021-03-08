@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class PlayerSkills {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   scoring: number;
@@ -17,8 +17,10 @@ export class PlayerSkills {
   @Column()
   handling: number;
 
-  @Column()
-  beating_accuracy: number;
+  @Column({
+    name: 'beating_accuracy'
+  })
+  beatingAccuracy: number;
 
   @Column()
   agility: number;
