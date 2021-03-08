@@ -124,7 +124,7 @@ export class MatchSimulation {
     });
 
     teamOrder.beaters.forEach(beater => {
-      matchTeamRatings.beating += (beater.skills.strength + beater.skills.beating_accuracy);
+      matchTeamRatings.beating += (beater.skills.strength + beater.skills.beatingAccuracy);
       matchTeamRatings.elusiveness += (beater.skills.reflexes + beater.skills.agility);
       matchTeamRatings.bludger_resistance += beater.skills.balance;
     });

@@ -3,11 +3,15 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class PlayerStats {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
-  @Column()
-  matches_played: number;
+  @Column({
+    name: 'matches_played'
+  })
+  matchesPlayed: number;
 
-  @Column()
-  goals_scored: number;
+  @Column({
+    name: 'goals_scored'
+  })
+  goalsScored: number;
 }
