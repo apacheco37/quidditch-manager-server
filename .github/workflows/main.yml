@@ -26,12 +26,48 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: install deps
+      - name: Install dependencies
         run: npm install
         
       # Runs a single command using the runners shell
-      - name: build dist
+      - name: Build
         run: npm run build
+        
+      # Copies needed files to the build
+      - name: Copy required files
+        run: cp Procfile package.json dist
+        
+      # Move to build folder and generate zip
+      - name: Generate deployment zip
+        run: |
+          cd dist
+          zip -r deploy.zip *
+        
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          # AWS Access Key
+          aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+          # AWS Secret Key
+          aws_secret_key: ${{secrets.AWS_SECRET_KEY}}
+          # AWS Region
+          region: us-east-2
+          # Beanstalk application name
+          application_name: quidditch-manager-api
+          # Beanstalk environment name. If empty a version will be created but not deployed anywhere.
+          environment_name: qm-dev
+          # Version label for new Beanstalk version
+          version_label: 1
+          # Version description for the new Beanstalk version
+          # version_description: # optional
+          # Zip file with the version to deploy. If skipped the action will deploy existing version.
+          deployment_package: deploy.zip
+          # If set to "true" then the action will deploy an existing version with the given version_label if it already exists, but otherwise create the version and deploy it.
+          # use_existing_version_if_available: # optional
+          # Whether the action should wait for the deployment to finish and log status messages during the wait. Default is "true". If set to "false" the action will start the deployment on Beanstalk and then exit.
+          # wait_for_deployment: # optional
+          # How many seconds to wait for the environment to return to Green state after deployment is finished. Default is 30 seconds.
+          # wait_for_environment_recovery: # optional
 
       # Runs a set of commands using the runners shell
       #- name: Run a multi-line script
