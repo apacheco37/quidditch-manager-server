@@ -40,6 +40,7 @@ jobs:
         run: |
           cd dist
           zip -r deploy.zip *
+          cp deploy.zip ../
         
       - name: Beanstalk Deploy
         uses: einaregilsson/beanstalk-deploy@v16
