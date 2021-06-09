@@ -1,3 +1,4 @@
 export const jwtConstants = {
-  secret: 'secretKey',
+  secret: process.env.JWTSECRETKEY || 'secretKey',
+  expiresIn: parseInt(process.env.JWTEXPIRY, 10) || 600,
 };
