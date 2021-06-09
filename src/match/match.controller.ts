@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { MatchOrder } from './entities/match.order.entity';
 import { Match } from './entities/match.entity';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('match')
 export class MatchController {
   constructor(

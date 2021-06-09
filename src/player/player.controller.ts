@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Put, Delete, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete, Param, Query, UseGuards } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { Player } from './entities/player.entity';
 import { CreatePlayerDto } from './dtos/create-player.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }

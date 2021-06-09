@@ -1,7 +1,9 @@
-import { Controller, Get, Param, Post, Body, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, Query, UseGuards } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { Team } from './team.entity';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('team')
 export class TeamController {
   constructor(private readonly teamService: TeamService) { }
