@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body, Put, Delete, Query, UseGuards } fro
 import { TeamService } from './team.service';
 import { Team } from './team.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CreateTeamDto } from './dtos/create-team.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('team')
@@ -19,7 +20,7 @@ export class TeamController {
   }
 
   @Post()
-  createTeam(@Body() team: Team): Promise<Team>{
+  createTeam(@Body() team: CreateTeamDto): Promise<Team>{
     return this.teamService.addTeam(team);
   }
 

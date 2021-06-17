@@ -4,13 +4,16 @@ import { Player } from 'src/player/entities/player.entity';
 @Entity()
 export class Team {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({
     length: 50
   })
   name: string;
 
-  @OneToMany(type => Player, player => player.team)
+  @OneToMany(type => Player, player => player.team, {
+    eager: true,
+    cascade: ['insert'],
+  })
   players: Player[];
 }
