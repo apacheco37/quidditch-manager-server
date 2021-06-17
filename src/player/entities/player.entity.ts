@@ -38,5 +38,5 @@ export class Player {
   stats: PlayerStats;
 
   @ManyToOne(type => Team, team => team.players)
-  team: Team;
+  team?: Team;
 }
