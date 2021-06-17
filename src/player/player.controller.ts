@@ -3,6 +3,7 @@ import { PlayerService } from './player.service';
 import { Player } from './entities/player.entity';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { GetPlayersQueryDto } from './dtos/get-players-query.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('player')
@@ -10,7 +11,7 @@ export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }
 
   @Get()
-  getPlayers(@Query() query): Promise<Player[]> {
+  getPlayers(@Query() query: GetPlayersQueryDto): Promise<Player[]> {
     return this.playerService.getPlayers(query.amount, query.page);
   }
 
@@ -30,7 +31,7 @@ export class PlayerController {
   }
 
   @Delete(':id')
-  deletePlayer(@Param('id') id: string) {
+  deletePlayer(@Param('id') id: string): Promise<Player> {
     return this.playerService.deletePlayer(id);
   }
 }

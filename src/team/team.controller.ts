@@ -3,6 +3,7 @@ import { TeamService } from './team.service';
 import { Team } from './team.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateTeamDto } from './dtos/create-team.dto';
+import { GetTeamsQueryDto } from './dtos/get-teams-query.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('team')
@@ -10,7 +11,7 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) { }
 
   @Get()
-  getTeams(@Query() query): Promise<Team[]> {
+  getTeams(@Query() query: GetTeamsQueryDto): Promise<Team[]> {
     return this.teamService.getTeams(query.amount, query.page);
   }
 
@@ -30,7 +31,7 @@ export class TeamController {
   }
 
   @Delete(':id')
-  deleteTeam(@Param('id') id: string) {
+  deleteTeam(@Param('id') id: string): Promise<Team> {
     return this.teamService.deleteTeam(id);
   }
 }

@@ -2,7 +2,6 @@ import { Player } from 'src/player/entities/player.entity';
 import { Match } from './entities/match.entity';
 import { MatchTeamRatings } from './entities/match.team.ratings.entity';
 import { MatchOrder } from './entities/match.order.entity';
-import { MatchTeamSummary } from './entities/match.team.summary.entity';
 
 interface PossessionOutcome {
   typeOfPlay: TypeOfPlay,
@@ -147,7 +146,7 @@ export class MatchSimulation {
     }
     else if (this.checkSteal) {
       possessionOutcome.typeOfPlay = TypeOfPlay.TURNOVER;
-      possessionOutcome.player = this.selectPlayer(TypeOfPlay.STEAL);;
+      possessionOutcome.player = this.selectPlayer(TypeOfPlay.STEAL);
     }
     else {
       possessionOutcome = this.checkShot();
