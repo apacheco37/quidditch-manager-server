@@ -11,6 +11,7 @@ export class Team {
   })
   name: string;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @OneToMany(type => Player, player => player.team, {
     eager: true,
     cascade: ['insert'],

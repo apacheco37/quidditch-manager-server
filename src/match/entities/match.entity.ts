@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { MatchOrder } from './match.order.entity';
 import { MatchTeamSummary } from './match.team.summary.entity';

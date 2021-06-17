@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 // This should be a real class/interface representing a user entity
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type User = any;
 
 @Injectable()
