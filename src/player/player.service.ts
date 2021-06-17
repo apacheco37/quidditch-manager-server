@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as faker from 'faker';
 
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { Player } from './entities/player.entity';
@@ -54,8 +55,8 @@ export class PlayerService {
       team = await this.teamRepository.findOne(createAutoGenPlayer.teamId);
     }
     const player: Player = {
-      firstName: 'John',
-      lastName: 'Doe',
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       age: getRandomInt(17,30),
       skills: {
         scoring: getRandomInt(1,15),
