@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../users/users.service';
 
@@ -10,12 +11,15 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  // TODO: Implement bcrypt to use hashed passwords
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findUser(username);
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+    if (user) {
+      const passwordMatch = await bcrypt.compare(pass, user.password);
+      if (passwordMatch) {
+        const { password, ...result } = user;
+        return result;
+      }
+      return null;
     }
     return null;
   }
