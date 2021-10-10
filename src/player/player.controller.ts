@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Put, Delete, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Param, Query, UseGuards, NotFoundException, Patch } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { Player } from './entities/player.entity';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GetPlayersQueryDto } from './dtos/get-players-query.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('player')
@@ -16,22 +17,34 @@ export class PlayerController {
   }
 
   @Get(':id')
-  getPlayer(@Param('id') id: string): Promise<Player> {
-    return this.playerService.getPlayer(id);
+  async getPlayer(@Param('id') id: string): Promise<Player> {
+    const player = await this.playerService.getPlayer(id);
+    if (!player) {
+      throw new NotFoundException;
+    }
+    return player;
   }
 
   @Post()
-  createPlayer(@Body() player: CreatePlayerDto): Promise<Player>{
-    return this.playerService.addPlayer(player);
+  createPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player>{
+    return this.playerService.addPlayer(createPlayerDto);
   }
 
-  @Put()
-  updatePlayer(@Body() player: Player): Promise<Player> {
-    return this.playerService.updatePlayer(player);
+  @Patch(':id')
+  async updatePlayer(@Param('id') id: string, @Body() updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+    const player = await this.playerService.getPlayer(id);
+    if (!player) {
+      throw new NotFoundException;
+    }
+    return this.playerService.updatePlayer(updatePlayerDto);
   }
 
   @Delete(':id')
-  deletePlayer(@Param('id') id: string): Promise<Player> {
+  async deletePlayer(@Param('id') id: string): Promise<Player> {
+    const player = await this.playerService.getPlayer(id);
+    if (!player) {
+      throw new NotFoundException;
+    }
     return this.playerService.deletePlayer(id);
   }
 }

@@ -5,8 +5,9 @@ import * as faker from 'faker';
 
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { Player } from './entities/player.entity';
-import { Team } from 'src/team/team.entity';
+import { Team } from '../team/entities/team.entity';
 import { getRandomInt } from '../utils/getRandomInt';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 
 @Injectable()
 export class PlayerService {
@@ -73,12 +74,12 @@ export class PlayerService {
     return player;
   }
 
-  updatePlayer(player: Player): Promise<Player> {
-    return this.playerRepository.save(player);
+  updatePlayer(updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+    return this.playerRepository.save(updatePlayerDto);
   }
 
   async deletePlayer(id: string): Promise<Player> {
-    const player: Player = await this.playerRepository.findOne(id);
+    const player = await this.playerRepository.findOne(id);
     return player !== null ? this.playerRepository.remove(player) : null;
   }
 }

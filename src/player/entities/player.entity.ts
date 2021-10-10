@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
-import { Team } from 'src/team/team.entity';
+import { Team } from '../../team/entities/team.entity';
 import { PlayerSkills } from './player.skills.entity';
 import { PlayerStats } from './player.stats.entity';
 

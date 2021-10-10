@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PlayerService } from 'src/player/player.service';
+import { PlayerService } from '../player/player.service';
 import { CreateTeamDto } from './dtos/create-team.dto';
-import { Team } from './team.entity';
-import { Player } from 'src/player/entities/player.entity';
+import { Team } from './entities/team.entity';
+import { Player } from '../player/entities/player.entity';
+import { UpdateTeamDto } from './dtos/update-team.dto';
 
 @Injectable()
 export class TeamService {
@@ -40,12 +41,12 @@ export class TeamService {
     return this.teamRepository.save(team);
   }
 
-  updateTeam(team: Team): Promise<Team> {
-    return this.teamRepository.save(team);
+  updateTeam(updateTeamDto: UpdateTeamDto): Promise<Team> {
+    return this.teamRepository.save(updateTeamDto);
   }
 
   async deleteTeam(id: string): Promise<Team> {
-    const team: Team = await this.teamRepository.findOne(id);
+    const team = await this.teamRepository.findOne(id);
     return team !== null ? this.teamRepository.remove(team) : null;
   }
 }
