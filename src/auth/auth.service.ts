@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { UsersService } from '../users/users.service';
+import { jwtConstants } from './constants';
 import { RegisterUserDto } from './dtos/register-user.dto';
-import { JwtResponseInterface } from './interfaces/jwt-response.interface';
-import { UserResponseInterface } from './interfaces/user-response.interface';
+import { UserInterface } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<UserResponseInterface> {
+  async validateUser(username: string, pass: string): Promise<UserInterface> {
     const user = await this.usersService.findUser(username);
     if (user) {
       const passwordMatch = await bcrypt.compare(pass, user.password);
@@ -27,14 +27,13 @@ export class AuthService {
     return null;
   }
 
-  async login(user: UserResponseInterface): Promise<JwtResponseInterface> {
+  getCookieWithJwtAccessToken(user: UserInterface): string {
     const payload = { username: user.username, sub: user.id };
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
+    const accessToken = this.jwtService.sign(payload); 
+    return `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${jwtConstants.expiresIn}`;
   }
 
-  async registerUser(registerUserDto: RegisterUserDto): Promise<UserResponseInterface> {
+  async registerUser(registerUserDto: RegisterUserDto): Promise<UserInterface> {
     const hashedPassword = await bcrypt.hash(registerUserDto.password, 10);
     const createdUser = await this.usersService.createUser({
       ...registerUserDto,

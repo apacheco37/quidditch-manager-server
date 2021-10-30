@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 const mockedJwtService = {
   sign: () => ''
-}
+};
 
 describe('AuthService', () => {
   let service: AuthService;
