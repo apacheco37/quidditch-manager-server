@@ -1,7 +1,8 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Body, Get } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dtos/register-user.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RequestWithUserInterface } from './interfaces/request-with-user.interface';
 import { UserInterface } from './interfaces/user.interface';
@@ -21,5 +22,11 @@ export class AuthController {
   @Post('register')
   async register(@Body() registrationData: RegisterUserDto): Promise<UserInterface> {
     return this.authService.registerUser(registrationData);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/verify')
+  verifyToken(@Request() req: RequestWithUserInterface): UserInterface {
+    return req.user;
   }
 }
