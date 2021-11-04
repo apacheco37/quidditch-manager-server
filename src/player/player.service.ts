@@ -23,12 +23,15 @@ export class PlayerService {
       {
         take: amount,
         skip: page,
+        relations: ["team"]
       }
     );
   }
 
   getPlayer(id: string): Promise<Player> {
-    return this.playerRepository.findOne(id);
+    return this.playerRepository.findOne(id, {
+      relations: ["team"]
+    });
   }
 
   async addPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {

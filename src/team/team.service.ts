@@ -7,6 +7,7 @@ import { CreateTeamDto } from './dtos/create-team.dto';
 import { Team } from './entities/team.entity';
 import { Player } from '../player/entities/player.entity';
 import { UpdateTeamDto } from './dtos/update-team.dto';
+import { GetTeamsQueryDto } from './dtos/get-teams-query.dto';
 
 @Injectable()
 export class TeamService {
@@ -16,13 +17,17 @@ export class TeamService {
     private readonly playerService: PlayerService
   ) {}
 
-  getTeams(amount: number, page: number): Promise<Team[]> {
-    return this.teamRepository.find(
-      {
-        take: amount,
-        skip: page,
-      }
-    );
+  getTeams(query: GetTeamsQueryDto): Promise<Team[]> {
+    // there has to be a better way to do this
+    return query.amount ? 
+      this.teamRepository.find(
+        {
+          take: query.amount,
+          skip: query.page,
+        }
+      ) :
+      this.teamRepository.find()
+    ;
   }
 
   getTeam(id: string): Promise<Team> {
@@ -37,7 +42,7 @@ export class TeamService {
     const team: Team = {
       name: createTeamDto.name,
       players
-    }
+    };
     return this.teamRepository.save(team);
   }
 

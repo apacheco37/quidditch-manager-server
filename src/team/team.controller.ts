@@ -13,7 +13,7 @@ export class TeamController {
 
   @Get()
   getTeams(@Query() query: GetTeamsQueryDto): Promise<Team[]> {
-    return this.teamService.getTeams(query.amount, query.page);
+    return this.teamService.getTeams(query);
   }
 
   @Get(':id')
