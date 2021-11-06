@@ -12,7 +12,7 @@ export class PlayerController {
   constructor(private readonly playerService: PlayerService) { }
 
   @Get()
-  getPlayers(@Query() query: GetPlayersQueryDto): Promise<Player[]> {
+  getPlayers(@Query() query: GetPlayersQueryDto): Promise<[Player[], number]> {
     return this.playerService.getPlayers(query.amount, query.page);
   }
 

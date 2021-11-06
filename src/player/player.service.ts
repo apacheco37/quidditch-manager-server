@@ -18,11 +18,11 @@ export class PlayerService {
     private readonly teamRepository: Repository<Team>
   ) {}
 
-  getPlayers(amount: number, page: number): Promise<Player[]> {
-    return this.playerRepository.find(
+  getPlayers(amount: number, page: number): Promise<[Player[], number]> {
+    return this.playerRepository.findAndCount(
       {
         take: amount,
-        skip: page,
+        skip: (amount * page),
         relations: ["team"]
       }
     );
