@@ -14,6 +14,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        "semi": ["warn", "always"]
+        "semi": ["warn", "always"],
+        "no-trailing-spaces": ["warn"]
     }
 };
