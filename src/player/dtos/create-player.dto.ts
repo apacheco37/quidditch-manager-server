@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsInt, Max, Min, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsInt, Max, Min, IsString, IsOptional, IsEnum } from 'class-validator';
+import { Gender } from '../entities/gender.enum';
 import { PlayerSkillsDto } from './create-player-skills.dto';
 
 export class CreatePlayerDto {
@@ -16,6 +17,9 @@ export class CreatePlayerDto {
   @Min(15)
   @Max(99)
   age: number;
+
+  @IsEnum(Gender)
+  gender: Gender;
 
   @IsNotEmpty()
   skills: PlayerSkillsDto;

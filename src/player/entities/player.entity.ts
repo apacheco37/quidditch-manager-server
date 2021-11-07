@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Team } from '../../team/entities/team.entity';
+import { Gender } from './gender.enum';
 import { PlayerSkills } from './player.skills.entity';
 import { PlayerStats } from './player.stats.entity';
 
@@ -23,6 +24,12 @@ export class Player {
 
   @Column()
   age: number;
+
+  @Column({
+    type: "enum",
+    enum: Gender,
+  })
+  gender: Gender;
 
   @OneToOne(type => PlayerSkills, {
     cascade: ['insert'],
