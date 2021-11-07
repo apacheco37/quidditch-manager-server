@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export const typeOrmConfig: TypeOrmModuleOptions = {
+const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: process.env.DBHOST,
   port: parseInt(process.env.DBPORT, 10),
@@ -11,5 +11,12 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   password: process.env.DBPASSWORD,
   database: process.env.DBDATABASE,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: process.env.DBSYNCHRONIZE === 'true'
-}
+  synchronize: process.env.DBSYNCHRONIZE === 'false',
+  // migrationsTableName: "custom_migration_table",
+  migrations: [__dirname + "/migrations/*.ts"],
+  cli: {
+    "migrationsDir": __dirname + "/migrations"
+  }
+};
+
+module.exports = typeOrmConfig;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
-import { Player } from 'src/player/entities/player.entity';
+import { Player } from '../../player/entities/player.entity';
 
 @Entity()
 export class MatchOrder {

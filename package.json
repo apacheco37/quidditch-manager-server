@@ -1,8 +1,8 @@
 {
-  "name": "qmbackend",
+  "name": "quidditch-manager-server",
   "version": "0.0.2",
-  "description": "",
-  "author": "APacheco37",
+  "description": "Quidditch Manager backend API",
+  "author": "apacheco37",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -17,7 +17,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node --transpile-only node_modules/typeorm/cli.js",
+    "create:migration": "npm run typeorm migration:create -- -n",
+    "generate:migration": "npm run typeorm migration:generate -- -n",
+    "run:migrations": "npm run typeorm migration:run",
+    "revert:migration": "npm run typeorm migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.5",

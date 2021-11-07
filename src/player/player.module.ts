@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
 import { Player } from './entities/player.entity';
-import { Team } from 'src/team/entities/team.entity';
+import { Team } from '../team/entities/team.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Player, Team])],
