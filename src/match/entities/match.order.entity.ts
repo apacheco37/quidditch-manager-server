@@ -1,19 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, JoinColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 import { Player } from '../../player/entities/player.entity';
 
 @Entity()
 export class MatchOrder {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
-  @OneToMany(type => Player, player => player.id)
+  @ManyToMany(() => Player, {
+    eager: true
+  })
+  @JoinTable()
   chasers: Player[];
 
-  @OneToMany(type => Player, player => player.id)
+  @ManyToMany(() => Player, {
+    eager: true
+  })
+  @JoinTable()
   beaters: Player[];
 
-  @OneToOne(type => Player)
+  @ManyToOne(() => Player, {
+    eager: true
+  })
   @JoinColumn()
   keeper: Player;
 }

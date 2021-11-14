@@ -2,11 +2,12 @@ import { Player } from 'src/player/entities/player.entity';
 import { Match } from './entities/match.entity';
 import { MatchTeamRatings } from './entities/match.team.ratings.entity';
 import { MatchOrder } from './entities/match.order.entity';
+import { MatchTeamSummary } from './entities/match.team.summary.entity';
 
-interface PossessionOutcome {
-  typeOfPlay: TypeOfPlay,
-  player: Player,
-}
+// interface PossessionOutcome {
+//   typeOfPlay: TypeOfPlay,
+//   player: Player,
+// }
 
 enum TypeOfPlay {
   TURNOVER,
@@ -22,89 +23,34 @@ export class MatchSimulation {
   timeRemainingInHalf: number;
   half: number;
   teamInPossession: number;
-  match: Match;
+  match: Match = new Match();
 
   constructor(
     homeTeamOrder: MatchOrder,
     awayTeamOrder: MatchOrder
   ) {
-    this.halfLength = 30;
-    this.timeRemainingInHalf = this.halfLength * 60;
+    this.halfLength = 30; // minutes
+    this.timeRemainingInHalf = this.halfLength * 60; // seconds
     this.half = 1;
-
-    this.match.home_team_match_order = homeTeamOrder;
-    this.match.away_team_match_order = awayTeamOrder;
-
     // 50/50 chance on which team starts with possession
-    // 1 = home team, 0 =  away team
+    // 1 = home team, 0 = away team
     this.teamInPossession = Math.random() >= 0.5 ? 1 : 0;
-    this.match.home_team_ratings = this.calculateTeamRatings(homeTeamOrder);
-    this.match.away_team_ratings = this.calculateTeamRatings(awayTeamOrder);
+
+    this.match.homeTeamMatchOrder = homeTeamOrder;
+    this.match.awayTeamMatchOrder = awayTeamOrder;
+    this.match.homeTeamMatchSummary = new MatchTeamSummary();
+    this.match.awayTeamMatchSummary = new MatchTeamSummary();
+    this.match.homeTeamRatings = this.calculateTeamRatings(homeTeamOrder);
+    this.match.awayTeamRatings = this.calculateTeamRatings(awayTeamOrder);
   }
 
   simulateMatch(): Match {
     while(this.timeRemainingInHalf > 0  && this.half <= 2) {
-      // Length of each possession is between 20 and 30 seconds
-      // TODO: adjust when there is less than 20 to 30 seconds
-      const possessionTime: number = this.randomNumberInRange(20, 30);
-      const possessionOutcome: PossessionOutcome = this.simulatePossession();
+      this.simulatePossession();
 
-      switch (possessionOutcome.typeOfPlay) {
-        case TypeOfPlay.TURNOVER:
-          if (this.teamInPossession === 1) {
-            this.match.home_team_match_summary.turnovers += 1;
-          } else {
-            this.match.away_team_match_summary.turnovers += 1;
-          }
-          this.teamInPossession = this.teamInPossession === 1 ? 0 : 1;
-          break;
-        case TypeOfPlay.STEAL:
-          if (this.teamInPossession === 1) {
-            this.match.away_team_match_summary.steals += 1;
-          } else {
-            this.match.home_team_match_summary.steals += 1;
-          }
-          this.teamInPossession = this.teamInPossession === 1 ? 0 : 1;
-          break;
-        case TypeOfPlay.SHOTMISSED:
-          if (this.teamInPossession === 1) {
-            this.match.home_team_match_summary.shots_missed += 1;
-            this.match.home_team_match_summary.shots_made += 1;
-            this.teamInPossession = 0;
-          } else {
-            this.match.away_team_match_summary.shots_missed += 1;
-            this.match.away_team_match_summary.shots_made += 1;
-            this.teamInPossession = 1;
-          }
-          break;
-        case TypeOfPlay.SAVE:
-          if (this.teamInPossession === 1) {
-            this.match.home_team_match_summary.saves += 1;
-            this.match.home_team_match_summary.shots_made += 1;
-            this.teamInPossession = 0;
-          } else {
-            this.match.away_team_match_summary.saves += 1;
-            this.match.away_team_match_summary.shots_made += 1;
-            this.teamInPossession = 1;
-          }
-          break;
-        case TypeOfPlay.GOAL:
-          if (this.teamInPossession === 1) {
-            this.match.home_team_match_summary.goals_scored += 1;
-            this.match.home_team_match_summary.shots_made += 1;
-            this.teamInPossession = 0;
-          } else {
-            this.match.away_team_match_summary.goals_scored += 1;
-            this.match.away_team_match_summary.shots_made += 1;
-            this.teamInPossession = 1;
-          }
-          break;
-      }
-
-      this.timeRemainingInHalf -= possessionTime;
       if (this.timeRemainingInHalf <= 0) {
         this.half += 1;
-        this.timeRemainingInHalf = this.halfLength * 60
+        this.timeRemainingInHalf = this.halfLength * 60;
       }
     }
 
@@ -119,13 +65,13 @@ export class MatchSimulation {
       matchTeamRatings.creation += (chaser.skills.passing + chaser.skills.handling / 2);
       matchTeamRatings.defence += (chaser.skills.interceptions + chaser.skills.agility / 2);
       matchTeamRatings.elusiveness += (chaser.skills.reflexes + chaser.skills.agility);
-      matchTeamRatings.bludger_resistance += chaser.skills.balance;
+      matchTeamRatings.bludgerResistance += chaser.skills.balance;
     });
 
     teamOrder.beaters.forEach(beater => {
       matchTeamRatings.beating += (beater.skills.strength + beater.skills.beatingAccuracy);
       matchTeamRatings.elusiveness += (beater.skills.reflexes + beater.skills.agility);
-      matchTeamRatings.bludger_resistance += beater.skills.balance;
+      matchTeamRatings.bludgerResistance += beater.skills.balance;
     });
 
     matchTeamRatings.goalkeeping += (
@@ -137,22 +83,23 @@ export class MatchSimulation {
     return matchTeamRatings;
   }
 
-  private simulatePossession(): PossessionOutcome {
-    let possessionOutcome: PossessionOutcome;
+  private simulatePossession(): void {
+    // Length of each possession is between 20 and 30 seconds
+    // TODO: adjust when there is less than 20 to 30 seconds
+    const possessionTime: number = this.randomNumberInRange(20, 30);
+    this.timeRemainingInHalf -= possessionTime;
 
     if (this.checkTurnover()) {
-      possessionOutcome.typeOfPlay = TypeOfPlay.TURNOVER;
-      possessionOutcome.player = this.selectPlayer(TypeOfPlay.TURNOVER);
+      this.doTurnover();
+    } else if (this.checkSteal()) {
+      this.doSteal();
+    } else if (this.checkShotMissed()) {
+      this.doShotMissed();
+    } else if (this.checkSave()) {
+      this.doSave();
+    } else {
+      this.doGoal();
     }
-    else if (this.checkSteal) {
-      possessionOutcome.typeOfPlay = TypeOfPlay.TURNOVER;
-      possessionOutcome.player = this.selectPlayer(TypeOfPlay.STEAL);
-    }
-    else {
-      possessionOutcome = this.checkShot();
-    }
-
-    return possessionOutcome;
   }
 
   private checkTurnover(): boolean {
@@ -165,11 +112,68 @@ export class MatchSimulation {
     return Math.random() > 0.5 ? true : false;
   }
 
-  private checkShot(): PossessionOutcome {
-    // if () {
-    //   return PossessionOutcome.
-    // }
-    return null;
+  private checkShotMissed(): boolean {
+    // TODO: change 0.5 for calculated value
+    return Math.random() > 0.5 ? true : false;
+  }
+
+  private checkSave() {
+    // TODO: change 0.5 for calculated value
+    return Math.random() > 0.5 ? true : false;
+  }
+
+  private doTurnover(): void {
+    if (this.teamInPossession === 1) {
+      this.match.homeTeamMatchSummary.turnovers += 1;
+    } else {
+      this.match.awayTeamMatchSummary.turnovers += 1;
+    }
+    this.swapTeamInPossession();
+  }
+
+  private doSteal(): void {
+    if (this.teamInPossession === 1) {
+      this.match.awayTeamMatchSummary.steals += 1;
+    } else {
+      this.match.homeTeamMatchSummary.steals += 1;
+    }
+    this.swapTeamInPossession();
+  }
+
+  private doShotMissed(): void {
+    if (this.teamInPossession === 1) {
+      this.match.homeTeamMatchSummary.shotsMissed += 1;
+      this.match.homeTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 0;
+    } else {
+      this.match.awayTeamMatchSummary.shotsMissed += 1;
+      this.match.awayTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 1;
+    }
+  }
+
+  private doSave(): void {
+    if (this.teamInPossession === 1) {
+      this.match.homeTeamMatchSummary.saves += 1;
+      this.match.homeTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 0;
+    } else {
+      this.match.awayTeamMatchSummary.saves += 1;
+      this.match.awayTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 1;
+    }
+  }
+
+  private doGoal(): void {
+    if (this.teamInPossession === 1) {
+      this.match.homeTeamMatchSummary.goalsScored += 1;
+      this.match.homeTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 0;
+    } else {
+      this.match.awayTeamMatchSummary.goalsScored += 1;
+      this.match.awayTeamMatchSummary.shotsMade += 1;
+      this.teamInPossession = 1;
+    }
   }
 
   private selectPlayer(typeOfPlay: TypeOfPlay): Player {
@@ -177,16 +181,16 @@ export class MatchSimulation {
 
     if (typeOfPlay === TypeOfPlay.TURNOVER || typeOfPlay === TypeOfPlay.SHOTMISSED || typeOfPlay === TypeOfPlay.GOAL) {
       player = this.teamInPossession === 1 ?
-        this.match.home_team_match_order.chasers[this.randomNumberInRange(0,3)] :
-        this.match.away_team_match_order.chasers[this.randomNumberInRange(0,3)];
+        this.match.homeTeamMatchOrder.chasers[this.randomNumberInRange(0,3)] :
+        this.match.awayTeamMatchOrder.chasers[this.randomNumberInRange(0,3)];
     } else if (typeOfPlay === TypeOfPlay.STEAL) {
       player = this.teamInPossession === 1 ?
-        this.match.away_team_match_order.chasers[this.randomNumberInRange(0,3)] :
-        this.match.home_team_match_order.chasers[this.randomNumberInRange(0,3)];
+        this.match.awayTeamMatchOrder.chasers[this.randomNumberInRange(0,3)] :
+        this.match.homeTeamMatchOrder.chasers[this.randomNumberInRange(0,3)];
     } else if (typeOfPlay === TypeOfPlay.SAVE) {
       player = this.teamInPossession === 1 ?
-        this.match.away_team_match_order.keeper :
-        this.match.home_team_match_order.keeper;
+        this.match.awayTeamMatchOrder.keeper :
+        this.match.homeTeamMatchOrder.keeper;
     }
 
     return player;
@@ -194,5 +198,9 @@ export class MatchSimulation {
 
   private randomNumberInRange(min: number, max: number): number {
     return Math.random() * (max - min) + min;
+  }
+
+  private swapTeamInPossession(): void {
+    this.teamInPossession = this.teamInPossession === 1 ? 0 : 1;
   }
 }

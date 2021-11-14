@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards, Body } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { MatchService } from './match.service';
-import { MatchOrder } from './entities/match.order.entity';
 import { Match } from './entities/match.entity';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PlayMatchDto } from './dtos/play-match.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('match')
@@ -12,8 +12,8 @@ export class MatchController {
   ) { }
 
   @Post('play')
-  playMatch(homeTeamOrders: MatchOrder, awayTeamOrder: MatchOrder): Promise<Match> {
-    return this.matchService.simulateMatch(homeTeamOrders, awayTeamOrder);
+  playMatch(@Body() playMatchDto: PlayMatchDto): Promise<Match> {
+    return this.matchService.simulateMatch(playMatchDto);
   }
 
   @Get(':id')

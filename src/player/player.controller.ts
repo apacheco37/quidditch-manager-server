@@ -17,7 +17,7 @@ export class PlayerController {
   }
 
   @Get(':id')
-  async getPlayer(@Param('id') id: string): Promise<Player> {
+  async getPlayer(@Param('id') id: number): Promise<Player> {
     const player = await this.playerService.getPlayer(id);
     if (!player) {
       throw new NotFoundException;
@@ -31,7 +31,7 @@ export class PlayerController {
   }
 
   @Patch(':id')
-  async updatePlayer(@Param('id') id: string, @Body() updatePlayerDto: UpdatePlayerDto): Promise<Player> {
+  async updatePlayer(@Param('id') id: number, @Body() updatePlayerDto: UpdatePlayerDto): Promise<Player> {
     const player = await this.playerService.getPlayer(id);
     if (!player) {
       throw new NotFoundException;
@@ -40,7 +40,7 @@ export class PlayerController {
   }
 
   @Delete(':id')
-  async deletePlayer(@Param('id') id: string): Promise<Player> {
+  async deletePlayer(@Param('id') id: number): Promise<Player> {
     const player = await this.playerService.getPlayer(id);
     if (!player) {
       throw new NotFoundException;

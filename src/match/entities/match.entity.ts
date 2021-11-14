@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { MatchOrder } from './match.order.entity';
 import { MatchTeamSummary } from './match.team.summary.entity';
@@ -9,27 +8,57 @@ export class Match {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(type => MatchOrder)
-  @JoinColumn()
-  home_team_match_order: MatchOrder;
+  @OneToOne(() => MatchOrder, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'home_team_match_order'
+  })
+  homeTeamMatchOrder: MatchOrder;
 
-  @OneToOne(type => MatchOrder)
-  @JoinColumn()
-  away_team_match_order: MatchOrder;
+  @OneToOne(() => MatchOrder, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'away_team_match_order'
+  })
+  awayTeamMatchOrder: MatchOrder;
 
-  @OneToOne(type => MatchTeamSummary)
-  @JoinColumn()
-  home_team_match_summary: MatchTeamSummary;
+  @OneToOne(() => MatchTeamSummary, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'home_team_match_summary'
+  })
+  homeTeamMatchSummary: MatchTeamSummary;
 
-  @OneToOne(type => MatchTeamSummary)
-  @JoinColumn()
-  away_team_match_summary: MatchTeamSummary;
+  @OneToOne(() => MatchTeamSummary, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'away_team_match_summary'
+  })
+  awayTeamMatchSummary: MatchTeamSummary;
 
-  @OneToOne(type => MatchTeamRatings)
-  @JoinColumn()
-  home_team_ratings: MatchTeamRatings;
+  @OneToOne(() => MatchTeamRatings, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'home_team_ratings'
+  })
+  homeTeamRatings: MatchTeamRatings;
 
-  @OneToOne(type => MatchTeamRatings)
-  @JoinColumn()
-  away_team_ratings: MatchTeamRatings;
+  @OneToOne(() => MatchTeamRatings, {
+    cascade: ['insert'],
+    eager: true
+  })
+  @JoinColumn({
+    name: 'away_team_ratings'
+  })
+  awayTeamRatings: MatchTeamRatings;
 }

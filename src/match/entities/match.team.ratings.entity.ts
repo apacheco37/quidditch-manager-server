@@ -2,6 +2,17 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class MatchTeamRatings {
+
+  constructor() {
+    this.scoring = 0;
+    this.creation = 0;
+    this.defence = 0;
+    this.goalkeeping = 0;
+    this.beating = 0;
+    this.elusiveness = 0;
+    this.bludgerResistance = 0;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,6 +34,8 @@ export class MatchTeamRatings {
   @Column()
   elusiveness: number;
 
-  @Column()
-  bludger_resistance: number;
+  @Column({
+    name: 'bludger_resistance'
+  })
+  bludgerResistance: number;
 }

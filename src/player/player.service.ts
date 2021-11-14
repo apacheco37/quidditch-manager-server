@@ -29,7 +29,11 @@ export class PlayerService {
     );
   }
 
-  getPlayer(id: string): Promise<Player> {
+  getPlayersByIDs(playerIDs: number[]): Promise<Player[]> {
+    return this.playerRepository.findByIds(playerIDs);
+  }
+
+  getPlayer(id: number): Promise<Player> {
     return this.playerRepository.findOne(id, {
       relations: ["team"]
     });
@@ -87,7 +91,7 @@ export class PlayerService {
     return this.playerRepository.save(updatePlayerDto);
   }
 
-  async deletePlayer(id: string): Promise<Player> {
+  async deletePlayer(id: number): Promise<Player> {
     const player = await this.playerRepository.findOne(id);
     return player !== null ? this.playerRepository.remove(player) : null;
   }
