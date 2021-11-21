@@ -8,6 +8,7 @@ import { MatchSimulation } from './match-simulation';
 import { PlayMatchDto } from './dtos/play-match.dto';
 import { MatchOrder } from './entities/match.order.entity';
 import { MatchOrderDto } from './dtos/match-order.dto';
+import { TeamService } from 'src/team/team.service';
 
 @Injectable()
 export class MatchService {
@@ -15,19 +16,28 @@ export class MatchService {
   constructor(
     @InjectRepository(Match)
     private readonly matchRepository: Repository<Match>,
-    private readonly playerService: PlayerService
+    private readonly playerService: PlayerService,
+    private readonly teamService: TeamService,
   ) {}
 
-  getMatch(id: string): Promise<Match> {
+  getMatch(id: number): Promise<Match> {
     return this.matchRepository.findOne(id);
   }
 
-  async simulateMatch(playMatchDto: PlayMatchDto): Promise<Match> {
-    const homeTeamMatchOrder = await this.buildMatchOrder(playMatchDto.homeTeamOrder);
+  async deleteMatch(id: number): Promise<Match> {
+    const match = await this.matchRepository.findOne(id);
+    return match !== null ? this.matchRepository.remove(match) : null;
+  }
 
+  async simulateMatch(playMatchDto: PlayMatchDto): Promise<Match> {
+    const homeTeam = await this.teamService.getTeam(playMatchDto.homeTeamID);
+    const awayTeam = await this.teamService.getTeam(playMatchDto.awayTeamID);
+    const homeTeamMatchOrder = await this.buildMatchOrder(playMatchDto.homeTeamOrder);
     const awayTeamMatchOrder = await this.buildMatchOrder(playMatchDto.awayTeamOrder);
 
     const match: Match = new MatchSimulation(
+      homeTeam,
+      awayTeam,
       homeTeamMatchOrder,
       awayTeamMatchOrder
     ).simulateMatch();

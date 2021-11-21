@@ -30,7 +30,7 @@ export class TeamService {
     ;
   }
 
-  getTeam(id: string): Promise<Team> {
+  getTeam(id: number): Promise<Team> {
     return this.teamRepository.findOne(id);
   }
 
@@ -52,7 +52,7 @@ export class TeamService {
     return this.teamRepository.save(updateTeamDto);
   }
 
-  async deleteTeam(id: string): Promise<Team> {
+  async deleteTeam(id: number): Promise<Team> {
     const team = await this.teamRepository.findOne(id);
     return team !== null ? this.teamRepository.remove(team) : null;
   }

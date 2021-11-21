@@ -1,15 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { MatchOrder } from './match.order.entity';
 import { MatchTeamSummary } from './match.team.summary.entity';
 import { MatchTeamRatings } from './match.team.ratings.entity';
+import { Team } from 'src/team/entities/team.entity';
 
 @Entity()
 export class Match {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ManyToOne(() => Team, {
+    eager: true
+  })
+  @JoinColumn({
+    name: 'home_team'
+  })
+  homeTeam: Team;
+
+  @ManyToOne(() => Team, {
+    eager: true
+  })
+  @JoinColumn({
+    name: 'away_team'
+  })
+  awayTeam: Team;
+
   @OneToOne(() => MatchOrder, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({
@@ -18,7 +35,7 @@ export class Match {
   homeTeamMatchOrder: MatchOrder;
 
   @OneToOne(() => MatchOrder, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({
@@ -27,7 +44,7 @@ export class Match {
   awayTeamMatchOrder: MatchOrder;
 
   @OneToOne(() => MatchTeamSummary, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({
@@ -36,7 +53,7 @@ export class Match {
   homeTeamMatchSummary: MatchTeamSummary;
 
   @OneToOne(() => MatchTeamSummary, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({
@@ -45,7 +62,7 @@ export class Match {
   awayTeamMatchSummary: MatchTeamSummary;
 
   @OneToOne(() => MatchTeamRatings, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({
@@ -54,7 +71,7 @@ export class Match {
   homeTeamRatings: MatchTeamRatings;
 
   @OneToOne(() => MatchTeamRatings, {
-    cascade: ['insert'],
+    cascade: ['insert', 'remove'],
     eager: true
   })
   @JoinColumn({

@@ -16,25 +16,25 @@ export class MatchTeamRatings {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column("real")
   scoring: number;
 
-  @Column()
+  @Column("real")
   creation: number;
 
-  @Column()
+  @Column("real")
   defence: number;
 
-  @Column()
+  @Column("real")
   goalkeeping: number;
 
-  @Column()
+  @Column("real")
   beating: number;
 
-  @Column()
+  @Column("real")
   elusiveness: number;
 
-  @Column({
+  @Column("real", {
     name: 'bludger_resistance'
   })
   bludgerResistance: number;

@@ -3,6 +3,7 @@ import { Match } from './entities/match.entity';
 import { MatchTeamRatings } from './entities/match.team.ratings.entity';
 import { MatchOrder } from './entities/match.order.entity';
 import { MatchTeamSummary } from './entities/match.team.summary.entity';
+import { Team } from 'src/team/entities/team.entity';
 
 // interface PossessionOutcome {
 //   typeOfPlay: TypeOfPlay,
@@ -26,6 +27,8 @@ export class MatchSimulation {
   match: Match = new Match();
 
   constructor(
+    homeTeam: Team,
+    awayTeam: Team,
     homeTeamOrder: MatchOrder,
     awayTeamOrder: MatchOrder
   ) {
@@ -36,6 +39,8 @@ export class MatchSimulation {
     // 1 = home team, 0 = away team
     this.teamInPossession = Math.random() >= 0.5 ? 1 : 0;
 
+    this.match.homeTeam = homeTeam;
+    this.match.awayTeam = awayTeam;
     this.match.homeTeamMatchOrder = homeTeamOrder;
     this.match.awayTeamMatchOrder = awayTeamOrder;
     this.match.homeTeamMatchSummary = new MatchTeamSummary();

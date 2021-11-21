@@ -17,7 +17,7 @@ export class TeamController {
   }
 
   @Get(':id')
-  async getTeam(@Param('id') id: string): Promise<Team> {
+  async getTeam(@Param('id') id: number): Promise<Team> {
     const team = await this.teamService.getTeam(id);
     if (!team) {
       throw new NotFoundException;
@@ -31,7 +31,7 @@ export class TeamController {
   }
 
   @Patch(':id')
-  async updateTeam(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto): Promise<Team> {
+  async updateTeam(@Param('id') id: number, @Body() updateTeamDto: UpdateTeamDto): Promise<Team> {
     const team = await this.teamService.getTeam(id);
     if (!team) {
       throw new NotFoundException;
@@ -40,7 +40,7 @@ export class TeamController {
   }
 
   @Delete(':id')
-  async deleteTeam(@Param('id') id: string): Promise<Team> {
+  async deleteTeam(@Param('id') id: number): Promise<Team> {
     const team = await this.teamService.getTeam(id);
     if (!team) {
       throw new NotFoundException;

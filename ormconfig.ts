@@ -11,7 +11,7 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   password: process.env.DBPASSWORD,
   database: process.env.DBDATABASE,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: process.env.DBSYNCHRONIZE === 'false',
+  synchronize: process.env.DBSYNCHRONIZE === 'true',
   // migrationsTableName: "custom_migration_table",
   migrations: [__dirname + "/migrations/*.ts"],
   cli: {

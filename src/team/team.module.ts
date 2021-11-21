@@ -11,6 +11,9 @@ import { PlayerModule } from '../player/player.module';
     PlayerModule
   ],
   providers: [TeamService],
-  controllers: [TeamController]
+  controllers: [TeamController],
+  exports: [
+    TeamService,
+  ]
 })
 export class TeamModule {}
